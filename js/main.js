@@ -9,74 +9,110 @@ const addBtn = document.querySelector('#add-button');
 
 const listDiv = document.querySelector('#list');
 
-// Other variables
+// Local storage
 
-// Format: id, name, checked
-let listArray = [
-    [1, 'Passport', true]
-];
+// Format: name, checked, editing
+let listArray = [];
+
+function setLocalStorage() {
+    localStorage.setItem('length', listArray.length);
+    for (let i = 0; i < listArray.length; i++) {
+        localStorage.setItem(i, JSON.stringify(listArray[i]));
+    }
+}
+
+function getLocalStorage() {
+    const length = localStorage.getItem('length');
+    for (let i = 0; i < length; i++) {
+        listArray.push(JSON.parse(localStorage.getItem(i)));
+    }
+    refreshScreen();
+}
 
 // Functions
 
 function addItem() {
-    // Add div to HTML
-    listDiv.innerHTML += `
-    <div class="checklist-item mt-3 fs-5 d-flex align-content-center gap-2">
-        <input class="form-check-input hidden" type="checkbox" id="item-1">
-        <label class="form-check-label text-light hidden" for="item-1">Passport</label>
-        <i id="edit-1" class="edit-btn bi bi-pencil-fill text-accent hover hidden"></i>
-        <input class="form-control" type="text" id="text-1">
-        <i id="save-1" class="save-btn bi bi-floppy-fill text-accent hover"></i>
-        <i id="trash-1" class="trash-btn bi bi-trash-fill text-accent hover"></i>
-    </div>
-    `;
-    // Add event listeners to buttons
+    listArray.push(['', '', true]);
+    refreshScreen();
 }
 
 function refreshScreen() {
+    listDiv.innerHTML = '';
     for (let i = 0; i < listArray.length; i++) {
-        listDiv.innerHTML += `
-        <div id="item-${listArray[i][0]}" class="checklist-item mt-3 fs-5 d-flex align-content-center gap-2">
-            <input class="form-check-input" type="checkbox" value="${listArray[i][2]}" name="check-${listArray[i][0]}">
-            <label class="form-check-label text-light" for="check-${listArray[i][0]}">${listArray[i][1]}</label>
-            <i class="edit-btn bi bi-pencil-fill text-accent hover"></i>
-            <input class="form-control hidden" value="${listArray[i][1]}" type="text" id="text-1">
-            <i class="save-btn bi bi-floppy-fill text-accent hover hidden"></i>
-            <i class="trash-btn bi bi-trash-fill text-accent hover hidden"></i>
-        </div>
-        `
-        const editBtn = document.querySelector(`#item-${listArray[i][0]} .edit-btn`);
-        const saveBtn = document.querySelector(`#item-${listArray[i][0]} .save-btn`);
-        const trashBtn = document.querySelector(`#item-${listArray[i][0]} .trash-btn`);
+        if (listArray[i][2] == true) {
+            listDiv.innerHTML += `
+            <div id="item-${i}" class="checklist-item mt-3 fs-5 d-flex align-content-center gap-2">
+                <input class="form-check-input hidden" type="checkbox" name="check-${i}" ${listArray[i][1]}>
+                <label class="form-check-label text-light hidden" for="check-${i}">${listArray[i][0]}</label>
+                <i class="edit-btn bi bi-pencil-fill text-accent hover hidden"></i>
+                <input class="form-control" value="${listArray[i][0]}" type="text" id="text-1">
+                <i class="save-btn bi bi-floppy-fill text-accent hover"></i>
+                <i class="trash-btn bi bi-trash-fill text-accent hover"></i>
+            </div>
+            `
+        } else {
+            listDiv.innerHTML += `
+            <div id="item-${i}" class="checklist-item mt-3 fs-5 d-flex align-content-center gap-2">
+                <input class="form-check-input" type="checkbox" name="check-${i}" ${listArray[i][1]}>
+                <label class="form-check-label text-light" for="check-${i}">${listArray[i][0]}</label>
+                <i class="edit-btn bi bi-pencil-fill text-accent hover"></i>
+                <input class="form-control hidden" value="${listArray[i][0]}" type="text" id="text-1">
+                <i class="save-btn bi bi-floppy-fill text-accent hover hidden"></i>
+                <i class="trash-btn bi bi-trash-fill text-accent hover hidden"></i>
+            </div>
+            `
+        }
+    
+        const editBtn = document.querySelector(`#item-${i} .edit-btn`);
+        const saveBtn = document.querySelector(`#item-${i} .save-btn`);
+        const trashBtn = document.querySelector(`#item-${i} .trash-btn`);
+        const checkBox = document.querySelector(`#item-${i} .form-check-input`)
         editBtn.addEventListener('click', edit)
         saveBtn.addEventListener('click', save)
         trashBtn.addEventListener('click', trash)
+        checkBox.addEventListener('click', check)
     }
+    setLocalStorage();
 }
 
 function edit(e) {
-    // const id = e.srcElement.parentNode.id;
-    toggleView(e);
+    const id = e.srcElement.parentNode.id.slice(-1);
+    const item = listArray[id];
+
+    listArray[id] = [item[0], item[1], true];
+    refreshScreen();
 }
 
 function save(e) {
-    // const id = e.srcElement.parentNode.id;
-    toggleView(e);
+    const id = e.srcElement.parentNode.id.slice(-1);
+    const item = listArray[id];
+
+    const newValue = e.srcElement.parentNode.querySelector(`.form-control`);
+
+    listArray[id] = [newValue.value, item[1], false];
+
+    refreshScreen();
 }
 
 function trash(e) {
-    // const id = e.srcElement.parentNode.id;
-    toggleView(e);
+    const id = e.srcElement.parentNode.id.slice(-1);
+
+    listArray.splice(id, 1);
+
+    refreshScreen();
 }
 
-function toggleView(e) {
-    const item = e.srcElement.parentNode;
-    item.querySelector('.form-check-input').classList.toggle('hidden');
-    item.querySelector('.form-check-label').classList.toggle('hidden');
-    item.querySelector('.edit-btn').classList.toggle('hidden');
-    item.querySelector('.form-control').classList.toggle('hidden');
-    item.querySelector('.save-btn').classList.toggle('hidden');
-    item.querySelector('.trash-btn').classList.toggle('hidden');
+function check(e) {
+    const id = e.srcElement.parentNode.id.slice(-1);
+    const item = listArray[id];
+
+    if (listArray[id][1] == 'checked') {
+        listArray[id] = [item[0], '', item[2]];
+    } else {
+        listArray[id] = [item[0], 'checked', item[2]];
+    }
+
+    refreshScreen();
 }
 
 // Event listeners
@@ -87,4 +123,4 @@ if (addBtn) {
 
 // Auto functions
 
-refreshScreen();
+getLocalStorage();
