@@ -3,7 +3,7 @@
 
 // Variables
 
-const addBtn = document.querySelector('#add-button');
+const addBtns = document.querySelectorAll('#add-button');
 const listDiv = document.querySelector('#list');
 
 // Local storage
@@ -131,8 +131,8 @@ function check(e) {
 
 // Event listeners
 
-if (addBtn) {
-    addBtn.addEventListener('click', addItem);
+if (addBtns) {
+    addBtns.forEach((e) => e.addEventListener('click', addItem));
 }
 
 // Auto functions
