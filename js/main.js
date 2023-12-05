@@ -1,12 +1,9 @@
 // Main.js
 // Mau's checklists
 
-// Buttons
+// Variables
 
 const addBtn = document.querySelector('#add-button');
-
-// Divs
-
 const listDiv = document.querySelector('#list');
 
 // Local storage
@@ -83,7 +80,7 @@ function refreshScreen() {
 }
 
 function edit(e) {
-    const id = e.srcElement.parentNode.id.slice(-1);
+    const id = e.srcElement.parentNode.id.substr(5, 4);
     const item = listArray[id];
 
     listArray[id] = [item[0], item[1], true];
@@ -91,7 +88,7 @@ function edit(e) {
 }
 
 function save(e) {
-    const id = e.srcElement.parentNode.id.slice(-1);
+    const id = e.srcElement.parentNode.id.substr(5, 4);
     const item = listArray[id];
 
     const newValue = e.srcElement.parentNode.querySelector(`.form-control`);
@@ -102,7 +99,7 @@ function save(e) {
 }
 
 function saveValue(e) {
-    const id = e.srcElement.parentNode.id.slice(-1);
+    const id = e.srcElement.parentNode.id.substr(5, 4);
     const item = listArray[id];
 
     const newValue = e.srcElement.parentNode.querySelector(`.form-control`);
@@ -111,7 +108,7 @@ function saveValue(e) {
 }
 
 function trash(e) {
-    const id = e.srcElement.parentNode.id.slice(-1);
+    const id = e.srcElement.parentNode.id.substr(5, 4);
 
     listArray.splice(id, 1);
 
@@ -120,7 +117,7 @@ function trash(e) {
 
 function check(e) {
     console.log('test');
-    const id = e.srcElement.parentNode.id.slice(-1);
+    const id = e.srcElement.parentNode.id.substr(5, 4);
     const item = listArray[id];
 
     if (listArray[id][1] == 'checked') {
