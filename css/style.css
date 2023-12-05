@@ -1,0 +1,42 @@
+:root {
+    --main-color: #414770;
+    --main-text-color: #D3D4D9;
+    --bg-darker: #171123;
+    --accent: #EFA00B;
+}
+
+body {
+    background-color: var(--main-color);
+}
+
+.text-light {
+    color: var(--main-text-color) !important;
+}
+
+.bg-darker {
+    background-color: var(--bg-darker) !important;
+}
+
+.text-accent {
+    color: var(--accent) !important;
+}
+
+.btn-main-outline {
+    outline: 1px solid var(--main-color);
+}
+
+.btn-main-outline:hover {
+    background-color: var(--main-color) !important;
+}
+
+.hover {
+    cursor: pointer;
+}
+
+.card-footer {
+    border-top-color: var(--main-text-color);
+}
+
+.hidden {
+    display: none;
+}
