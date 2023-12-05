@@ -15,6 +15,7 @@ const listDiv = document.querySelector('#list');
 let listArray = [];
 
 function setLocalStorage() {
+    localStorage.clear();
     localStorage.setItem('length', listArray.length);
     for (let i = 0; i < listArray.length; i++) {
         localStorage.setItem(i, JSON.stringify(listArray[i]));
@@ -50,6 +51,7 @@ function refreshScreen() {
                 <i class="trash-btn bi bi-trash-fill text-accent hover"></i>
             </div>
             `
+            document.querySelector(`#item-${i} .form-control`).focus();
         } else {
             listDiv.innerHTML += `
             <div id="item-${i}" class="checklist-item mt-3 fs-5 d-flex align-content-center gap-2">
@@ -62,16 +64,21 @@ function refreshScreen() {
             </div>
             `
         }
-    
-        const editBtn = document.querySelector(`#item-${i} .edit-btn`);
-        const saveBtn = document.querySelector(`#item-${i} .save-btn`);
-        const trashBtn = document.querySelector(`#item-${i} .trash-btn`);
-        const checkBox = document.querySelector(`#item-${i} .form-check-input`)
-        editBtn.addEventListener('click', edit)
-        saveBtn.addEventListener('click', save)
-        trashBtn.addEventListener('click', trash)
-        checkBox.addEventListener('click', check)
     }
+    // Button event listeners
+    const editBtns = document.querySelectorAll('.edit-btn');
+    const saveBtns = document.querySelectorAll('.save-btn');
+    const trashBtns = document.querySelectorAll('.trash-btn');
+    editBtns.forEach((e) => e.addEventListener('click', edit));
+    saveBtns.forEach((e) => e.addEventListener('click', save));
+    trashBtns.forEach((e) => e.addEventListener('click', trash));
+    // Update every input on every change
+    const inputs = document.querySelectorAll('.form-control');
+    inputs.forEach((e) => e.addEventListener('change', saveValue));
+    // Checkboxes
+    const checkBoxes = document.querySelectorAll('.form-check-input');
+    checkBoxes.forEach((e) => e.addEventListener('change', check));
+    
     setLocalStorage();
 }
 
@@ -94,6 +101,15 @@ function save(e) {
     refreshScreen();
 }
 
+function saveValue(e) {
+    const id = e.srcElement.parentNode.id.slice(-1);
+    const item = listArray[id];
+
+    const newValue = e.srcElement.parentNode.querySelector(`.form-control`);
+
+    listArray[id] = [newValue.value, item[1], false];
+}
+
 function trash(e) {
     const id = e.srcElement.parentNode.id.slice(-1);
 
@@ -103,6 +119,7 @@ function trash(e) {
 }
 
 function check(e) {
+    console.log('test');
     const id = e.srcElement.parentNode.id.slice(-1);
     const item = listArray[id];
 
