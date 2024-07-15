@@ -54,8 +54,8 @@ function refreshScreen() {
             listDiv.innerHTML += `
             <div id="item-${i}" class="checklist-item mt-3 fs-5 d-flex align-content-center gap-2">
                 <input class="form-check-input" type="checkbox" name="check-${i}" id="check-${i}" ${listArray[i][1]}>
-                <label class="form-check-label" for="check-${i}">${listArray[i][0].slice(0,20)}${dots}</label>
-                <i class="edit-btn bi bi-pencil-fill icon hover ms-auto"></i>
+                <label class="form-check-label flex-grow-1" for="check-${i}">${listArray[i][0].slice(0,20)}${dots}</label>
+                <i class="edit-btn bi bi-pencil-fill icon hover"></i>
                 <input class="form-control hidden" value="${listArray[i][0]}" type="text" id="text-1">
                 <i class="save-btn bi bi-floppy-fill icon hover hidden"></i>
                 <i class="trash-btn bi bi-trash-fill icon hover hidden"></i>
