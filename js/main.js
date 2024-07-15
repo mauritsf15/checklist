@@ -37,11 +37,12 @@ function addItem() {
 function refreshScreen() {
     listDiv.innerHTML = '';
     for (let i = 0; i < listArray.length; i++) {
+        const dots = listArray[i][0].length < 20 ? '' : '...';
         if (listArray[i][2] == true) {
             listDiv.innerHTML += `
             <div id="item-${i}" class="checklist-item mt-3 fs-5 d-flex align-content-center gap-2">
                 <input class="form-check-input hidden" type="checkbox" name="check-${i}" id="check-${i}" ${listArray[i][1]}>
-                <label class="form-check-label hidden" for="check-${i}">${listArray[i][0]}</label>
+                <label class="form-check-label hidden" for="check-${i}">${listArray[i][0].slice(0,20)}${dots}</label>
                 <i class="edit-btn bi bi-pencil-fill icon hover hidden"></i>
                 <input class="form-control" value="${listArray[i][0]}" type="text" id="text-1">
                 <i class="save-btn bi bi-floppy-fill icon hover"></i>
@@ -53,7 +54,7 @@ function refreshScreen() {
             listDiv.innerHTML += `
             <div id="item-${i}" class="checklist-item mt-3 fs-5 d-flex align-content-center gap-2">
                 <input class="form-check-input" type="checkbox" name="check-${i}" id="check-${i}" ${listArray[i][1]}>
-                <label class="form-check-label" for="check-${i}">${listArray[i][0]}</label>
+                <label class="form-check-label" for="check-${i}">${listArray[i][0].slice(0,20)}${dots}</label>
                 <i class="edit-btn bi bi-pencil-fill icon hover ms-auto"></i>
                 <input class="form-control hidden" value="${listArray[i][0]}" type="text" id="text-1">
                 <i class="save-btn bi bi-floppy-fill icon hover hidden"></i>
