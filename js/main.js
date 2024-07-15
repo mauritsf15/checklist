@@ -40,28 +40,29 @@ function refreshScreen() {
         if (listArray[i][2] == true) {
             listDiv.innerHTML += `
             <div id="item-${i}" class="checklist-item mt-3 fs-5 d-flex align-content-center gap-2">
-                <input class="form-check-input hidden" type="checkbox" name="check-${i}" ${listArray[i][1]}>
-                <label class="form-check-label text-light hidden" for="check-${i}">${listArray[i][0]}</label>
-                <i class="edit-btn bi bi-pencil-fill text-accent hover hidden"></i>
+                <input class="form-check-input hidden" type="checkbox" name="check-${i}" id="check-${i}" ${listArray[i][1]}>
+                <label class="form-check-label hidden" for="check-${i}">${listArray[i][0]}</label>
+                <i class="edit-btn bi bi-pencil-fill icon hover hidden"></i>
                 <input class="form-control" value="${listArray[i][0]}" type="text" id="text-1">
-                <i class="save-btn bi bi-floppy-fill text-accent hover"></i>
-                <i class="trash-btn bi bi-trash-fill text-accent hover"></i>
+                <i class="save-btn bi bi-floppy-fill icon hover"></i>
+                <i class="trash-btn bi bi-trash-fill icon hover"></i>
             </div>
             `
             document.querySelector(`#item-${i} .form-control`).focus();
         } else {
             listDiv.innerHTML += `
             <div id="item-${i}" class="checklist-item mt-3 fs-5 d-flex align-content-center gap-2">
-                <input class="form-check-input" type="checkbox" name="check-${i}" ${listArray[i][1]}>
-                <label class="form-check-label text-light" for="check-${i}">${listArray[i][0]}</label>
-                <i class="edit-btn bi bi-pencil-fill text-accent hover"></i>
+                <input class="form-check-input" type="checkbox" name="check-${i}" id="check-${i}" ${listArray[i][1]}>
+                <label class="form-check-label" for="check-${i}">${listArray[i][0]}</label>
+                <i class="edit-btn bi bi-pencil-fill icon hover ms-auto"></i>
                 <input class="form-control hidden" value="${listArray[i][0]}" type="text" id="text-1">
-                <i class="save-btn bi bi-floppy-fill text-accent hover hidden"></i>
-                <i class="trash-btn bi bi-trash-fill text-accent hover hidden"></i>
+                <i class="save-btn bi bi-floppy-fill icon hover hidden"></i>
+                <i class="trash-btn bi bi-trash-fill icon hover hidden"></i>
             </div>
             `
         }
     }
+
     // Button event listeners
     const editBtns = document.querySelectorAll('.edit-btn');
     const saveBtns = document.querySelectorAll('.save-btn');
@@ -69,9 +70,11 @@ function refreshScreen() {
     editBtns.forEach((e) => e.addEventListener('click', edit));
     saveBtns.forEach((e) => e.addEventListener('click', save));
     trashBtns.forEach((e) => e.addEventListener('click', trash));
+    
     // Update every input on every change
     const inputs = document.querySelectorAll('.form-control');
     inputs.forEach((e) => e.addEventListener('change', saveValue));
+
     // Checkboxes
     const checkBoxes = document.querySelectorAll('.form-check-input');
     checkBoxes.forEach((e) => e.addEventListener('change', check));
