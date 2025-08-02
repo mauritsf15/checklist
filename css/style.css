@@ -1,24 +1,105 @@
-:root {
-    --text: #e9eeee;
-    --background: #101515;
-    --primary: #b4c7c6;
-    --secondary: #504961;
-    --accent: #8e789a;
+/* Custom styles and animations */
+
+/* Smooth transitions for all interactive elements */
+* {
+    transition-property: opacity, transform, background-color, border-color;
+    transition-duration: 200ms;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-body {
-    background-color: var(--background);
-    color: var(--text);
+/* Custom focus states for better accessibility */
+.task-item:focus-within {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
-.hidden {
-    display: none;
+/* Task completion animation */
+.task-completed {
+    opacity: 0.6;
+    transform: scale(0.98);
 }
 
-.icon {
-    color: var(--accent);
+.task-text.completed {
+    text-decoration: line-through;
+    color: #9CA3AF;
 }
 
-.hover:hover {
+/* Edit mode styles */
+.task-edit-input {
+    background-color: #FEF3C7;
+    border-color: #F59E0B;
+}
+
+/* Progress bar animation */
+#progressBar {
+    transition: width 0.5s ease-in-out;
+}
+
+/* Button hover animations */
+button:hover:not(:disabled) {
+    transform: translateY(-1px);
+}
+
+button:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+/* Custom checkbox styles */
+.task-checkbox {
+    appearance: none;
+    width: 1.25rem;
+    height: 1.25rem;
+    border: 2px solid #D1D5DB;
+    border-radius: 0.25rem;
+    position: relative;
     cursor: pointer;
+    transition: all 0.2s;
+}
+
+.task-checkbox:checked {
+    background-color: #10B981;
+    border-color: #10B981;
+}
+
+.task-checkbox:checked::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 0.75rem;
+    font-weight: bold;
+}
+
+.task-checkbox:hover {
+    border-color: #10B981;
+}
+
+/* Loading states */
+.loading {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+/* Mobile responsiveness enhancements */
+@media (max-width: 640px) {
+    .container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+    
+    .flex.gap-2 {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .flex.gap-2 > * {
+        width: 100%;
+    }
+    
+    .flex.justify-between {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
 }
